@@ -73,13 +73,23 @@ export const BlocksRunner = () => {
 
       try{
         ${blocks.map((block) => (`{
-          let id = ${JSON.stringify(block.id)};
-          
+          const id = ${JSON.stringify(block.id)};
+          const code = ${JSON.stringify(block.code ?? '')};
+          const bcode = ${JSON.stringify(segments.bollerplate.code ?? '')};
+
+        
           try {
+            if(!bcode) {
+              throw new Error("No bollerplate code");
+            }
+            if(!code) {
+              throw new Error("No block code");
+            }
+            
             ${block.code};
             
             let score = 0;
-            let need = Date.now() + ${TIMEOUT - 1000};
+            let need = Date.now() + ${1000};
             while(Date.now() < need) {
               ${segments.bollerplate.code ?? ''};
               score++;

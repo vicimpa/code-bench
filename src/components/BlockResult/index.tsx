@@ -1,7 +1,8 @@
-import { blocks, getName, IBlock, topScore } from "data/blocks";
+import { blocks, getName, IBlock, run, runAll, topScore } from "data/blocks";
 import { useSnapshot } from "valtio";
 
 export const BlockResult = () => {
+  const [isRun] = run.useState();
   useSnapshot(blocks);
 
   const complated = blocks
@@ -40,6 +41,7 @@ export const BlockResult = () => {
             </div>
           );
         })}
+        <button disabled={isRun} onClick={runAll}>Run all</button>
       </>
     );
   };
