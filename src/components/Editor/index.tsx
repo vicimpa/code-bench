@@ -55,8 +55,6 @@ export const Editor = ({ block, name, defaultShow }: IEditorProps) => {
         {!name && (
           <button onClick={() => removeBlock(block.id)}>Remove</button>
         )}
-
-        {block.result}
       </p>
       <div ref={ref} style={{ height: block.show ? 300 : 0 }}>
         <div style={{ position: 'absolute' }}
