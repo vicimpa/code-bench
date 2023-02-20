@@ -10,9 +10,9 @@ export const useSize = (ref: RefObject<HTMLElement>) => {
     const { width, height } = current.getBoundingClientRect();
     setSize([width, height]);
 
-    const observer = new ResizeObserver(([entry]) => {
-      const [{ inlineSize, blockSize }] = entry.borderBoxSize;
-      setSize([inlineSize, blockSize]);
+    const observer = new ResizeObserver(() => {
+      const { width, height } = current.getBoundingClientRect();
+      setSize([width, height]);
     });
 
     observer.observe(ref.current!);
