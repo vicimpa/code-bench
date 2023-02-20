@@ -1,0 +1,60 @@
+html, body, #root
+  min-width: 100vw
+  min-height: 100vh
+
+*
+  margin: 0
+  padding: 0
+  box-sizing: border-box
+
+a
+  color: inherit
+
+#root
+  background: #3a3d41
+  color: #fff
+  display: flex
+  flex-direction: column
+
+.main
+  display: flex
+
+.hidden
+  display: none
+  z-index: -1
+
+button
+  cursor: pointer
+
+button:disabled
+  cursor: default
+  opacity: 0.7
+
+button, input
+  padding: 10px 20px
+  color: #fff
+  background-color: #333
+  border: 2px solid #999
+  margin: 5px
+  outline: none
+
+.editor-list
+  flex-grow: 1
+  padding: 30px
+  display: flex
+  flex-direction: column
+  gap: 30px
+
+  .editor
+    padding: 10px
+    position: relative
+    background-color: rgba(0,0,0,0.4)
+    overflow: hidden
+
+    .block
+      position: absolute
+      background-color: rgba(0,0,0,0.2)
+      width: 100%
+      height: 100%
+      z-index: 1
+      backdrop-filter: blur(1px)
