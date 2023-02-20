@@ -9,6 +9,8 @@ export interface IBlock {
   id: string;
   result?: string;
   name?: string;
+  score?: number;
+  error?: string;
   code?: string;
   show?: boolean;
 }
@@ -19,14 +21,16 @@ export interface ISegments {
 }
 
 export const run = makeSharedState(false);
+export const topScore = makeSharedState(0);
 
 export const segments = proxy<ISegments>({
-  setup: { id: generate(4, 6), code: '' },
-  bollerplate: { id: generate(4, 6), code: 'myTest(2)' }
+  setup: { id: generate(4, 6) },
+  bollerplate: { id: generate(4, 6) }
 });
 
 export const blocks = proxy<IBlock[]>([
-  { id: generate(4, 6), code: 'const myTest = (n = 0) => n + n' }
+  { id: generate(4, 6) },
+  { id: generate(4, 6) }
 ]);
 
 export const appendBlock = () => {
@@ -40,15 +44,21 @@ export const removeBlock = (id: string) => {
   if (index !== -1) blocks.splice(index, 1);
 };
 
-export const getName = (block: IBlock) => {
+export const getName = (block: IBlock, noName = false) => {
   const index = blocks.findIndex(e => e.id === block.id);
-  return block.name || `Code block ${index + 1}`;
+  if (noName)
+    return block.name || `Code block ${index + 1}`;
+
+  return block.name ?? `Code block ${index + 1}`;
 };
 
 export const runAll = () => {
-  for (const block of blocks)
+  for (const block of blocks) {
+    delete block.error;
+    delete block.score;
     block.result = 'Running...';
-
+  }
+  topScore.state = 0;
   run.state = true;
 };
 
@@ -60,7 +70,6 @@ export const BlocksRunner = () => {
     if (!isRun) return;
     const runCode = `
       ${segments.setup.code ?? ''};
-
 
       try{
         ${blocks.map((block) => (`{
@@ -91,7 +100,7 @@ export const BlocksRunner = () => {
     });
 
     const worker = new Worker(URL.createObjectURL(blob));
-
+    topScore.state = 0;
     worker.onmessage = ({ data }) => {
       if (data === null) {
         run.state = false;
@@ -103,10 +112,14 @@ export const BlocksRunner = () => {
 
         if ('score' in data) {
           findBlock.result = `Score: ${data.score}`;
+          findBlock.score = data.score;
+          if (data.score > topScore.state)
+            topScore.state = data.score;
         }
 
         if ('error' in data) {
           findBlock.result = `${data.error.message || data.error}`;
+          findBlock.error = data.error;
           console.error(data.error);
         }
       }

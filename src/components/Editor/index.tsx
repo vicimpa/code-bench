@@ -1,7 +1,7 @@
 import MonacoEditor from "@monaco-editor/react";
 import { getName, IBlock, removeBlock, run } from "data/blocks";
 import { useSize } from "lib/useSize";
-import { MouseEvent, useCallback, useEffect, useRef } from "react";
+import { FocusEventHandler, MouseEvent, useCallback, useEffect, useRef } from "react";
 import { useSnapshot } from "valtio";
 
 interface IEditorProps {
@@ -24,6 +24,15 @@ export const Editor = ({ block, name, defaultShow }: IEditorProps) => {
     block.show = !block.show;
   }, []);
 
+  const defaultName = useCallback<FocusEventHandler>((e) => {
+    if (e.target instanceof HTMLInputElement) {
+      if (!e.target.value) {
+        e.target.value = getName(block, true);
+        block.name = getName(block, true);
+      }
+    }
+  }, [block]);
+
   useEffect(() => {
     if (typeof defaultShow === 'boolean')
       block.show = defaultShow;
@@ -38,7 +47,7 @@ export const Editor = ({ block, name, defaultShow }: IEditorProps) => {
         {name ? (
           <input defaultValue={name} readOnly />
         ) : (
-          <input value={getName(block)} onInput={onInput} />
+          <input value={getName(block)} onBlur={defaultName} onInput={onInput} />
         )}
 
         <button onClick={toggleShow}>{block.show ? 'Hide' : 'Show'}</button>

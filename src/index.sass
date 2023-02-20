@@ -16,8 +16,20 @@ a
   display: flex
   flex-direction: column
 
+.header
+  height: 50px
+  background: rgba(0,0,0,0.6)
+  position: sticky
+  top: 0
+  z-index: 10
+  backdrop-filter: blur(10px)
+  display: flex
+  align-items: center
+  padding: 0px 20px
+
 .main
   display: flex
+  flex-grow: 1
 
 .hidden
   display: none
@@ -37,6 +49,62 @@ button, input
   border: 2px solid #999
   margin: 5px
   outline: none
+
+@keyframes showPersent
+  0%
+    width: 0%
+  100%
+    width: var(--score)
+
+.result
+  background: rgba(0,0,0,0.2)
+  padding: 10px
+  width: 300px
+
+  gap: 30px
+
+  .styki
+    position: sticky
+    top: 55px
+
+  .block
+    border-radius: 10px
+    background-color: rgba(0,0,0,0.3)
+    padding: 20px
+    margin: 20px 0px
+
+    .persent
+      width: 100%
+      height: 20px
+      background-color: rgba(0,0,0,0.4)
+      border-radius: 10px
+      margin-top: 10px
+      position: relative
+      overflow: hidden
+
+      display: flex
+      justify-content: center
+
+      span
+        z-index: 1
+
+      &::after
+        content: ''
+        position: absolute
+        height: 100%
+        left: 0
+        top: 0
+        width: var(--score)
+        background-color: #7b822e
+        animation: showPersent 0.4s linear
+
+    i
+      color: #dee41b
+      font-style: normal
+
+    pre
+      color: #fff
+      margin-top: 10px
 
 .editor-list
   flex-grow: 1
