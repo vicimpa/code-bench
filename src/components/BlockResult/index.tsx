@@ -22,7 +22,7 @@ export const BlockResult = () => {
     return (
       <>
         {e.map((block, i) => {
-          const persent = `${block.score! / topScore.state * 100 | 0}%`;
+          const persent = `${(block.score! / topScore.state * 100 * 100 | 0) / 100}%`;
           const style = {
             ['--score']: persent
           } as any;
@@ -41,7 +41,6 @@ export const BlockResult = () => {
             </div>
           );
         })}
-        <button disabled={isRun} onClick={runAll}>Run all</button>
       </>
     );
   };
@@ -66,6 +65,7 @@ export const BlockResult = () => {
           {outputBlocks(waiting)}
         </div>
       ) || null}
+      <button disabled={isRun} onClick={runAll}>Run all</button>
     </>
   );
 };

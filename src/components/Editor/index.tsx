@@ -34,7 +34,7 @@ export const Editor = ({ block, name, defaultShow }: IEditorProps) => {
   }, [block]);
 
   useEffect(() => {
-    if (typeof defaultShow === 'boolean')
+    if (typeof defaultShow === 'boolean' && typeof block.show !== 'boolean')
       block.show = defaultShow;
   }, [defaultShow]);
 

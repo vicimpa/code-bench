@@ -4,7 +4,6 @@ import { useSnapshot } from "valtio";
 
 
 export const EditorList = () => {
-  const [isRun] = run.useState();
   useSnapshot(blocks);
 
   return (
@@ -15,7 +14,6 @@ export const EditorList = () => {
         <Editor key={block.id} defaultShow {...{ block }} />
       ))}
       <button onClick={appendBlock}>New block</button>
-      <button disabled={isRun} onClick={runAll}>Run all</button>
     </>
   );
 };
