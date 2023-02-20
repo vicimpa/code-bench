@@ -1,5 +1,5 @@
 import MonacoEditor from "@monaco-editor/react";
-import { getName, IBlock, removeBlock, useRun } from "data/blocks";
+import { getName, IBlock, removeBlock, run } from "data/blocks";
 import { useSize } from "lib/useSize";
 import { MouseEvent, useCallback, useEffect, useRef } from "react";
 import { useSnapshot } from "valtio";
@@ -13,7 +13,7 @@ interface IEditorProps {
 export const Editor = ({ block, name, defaultShow }: IEditorProps) => {
   const ref = useRef<HTMLDivElement>(null);
   const [width] = useSize(ref);
-  const run = useRun();
+  const [isRun] = run.useState();
   const onInput = useCallback((e: MouseEvent<HTMLInputElement>) => {
     if (e.target instanceof HTMLInputElement) {
       block.name = e.target.value;
@@ -33,7 +33,7 @@ export const Editor = ({ block, name, defaultShow }: IEditorProps) => {
 
   return (
     <div className="editor">
-      {run ? <div className="block" /> : null}
+      {isRun ? <div className="block" /> : null}
       <p>
         {name ? (
           <input defaultValue={name} readOnly />
@@ -47,7 +47,7 @@ export const Editor = ({ block, name, defaultShow }: IEditorProps) => {
           <button onClick={() => removeBlock(block.id)}>Remove</button>
         )}
 
-        {block.run ? 'Running...' : `Score: ${block.score ?? 0}`}
+        {block.result}
       </p>
       <div ref={ref} style={{ height: block.show ? 300 : 0 }}>
         <div style={{ position: 'absolute' }}

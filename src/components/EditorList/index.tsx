@@ -1,10 +1,11 @@
 import { Editor } from "components/Editor";
-import { appendBlock, blocks, runAll, segments, useRun } from "data/blocks";
+import { appendBlock, blocks, run, runAll, segments } from "data/blocks";
 import { useSnapshot } from "valtio";
 
 
 export const EditorList = () => {
-  const isRun = useRun();
+  const [isRun] = run.useState();
+  useSnapshot(blocks);
 
   return (
     <>
