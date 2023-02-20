@@ -13,7 +13,7 @@ export const EditorList = () => {
       {blocks.map(block => (
         <Editor key={block.id} defaultShow {...{ block }} />
       ))}
-      <button onClick={appendBlock}>New block</button>
+      <button onClick={appendBlock}>+ New block</button>
     </>
   );
 };

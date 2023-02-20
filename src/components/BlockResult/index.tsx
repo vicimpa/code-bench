@@ -65,7 +65,7 @@ export const BlockResult = () => {
           {outputBlocks(waiting)}
         </div>
       ) || null}
-      <button disabled={isRun} onClick={runAll}>Run all</button>
+      <button disabled={isRun} onClick={runAll}>▶ Run all</button>
     </>
   );
 };

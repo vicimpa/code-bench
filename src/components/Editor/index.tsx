@@ -43,19 +43,20 @@ export const Editor = ({ block, name, defaultShow }: IEditorProps) => {
   return (
     <div className="editor">
       {isRun ? <div className="block" /> : null}
-      <p>
+      <div className="head">
+        <button onClick={toggleShow}>{block.show ? '↑' : '↓'}</button>
+
         {name ? (
           <input defaultValue={name} readOnly />
         ) : (
           <input value={getName(block)} onBlur={defaultName} onInput={onInput} />
         )}
 
-        <button onClick={toggleShow}>{block.show ? 'Hide' : 'Show'}</button>
-
+        <div style={{ flexGrow: 1 }} />
         {!name && (
-          <button onClick={() => removeBlock(block.id)}>Remove</button>
+          <button onClick={() => removeBlock(block.id)}>🗑</button>
         )}
-      </p>
+      </div>
       <div ref={ref} style={{ height: block.show ? 300 : 0 }}>
         <div style={{ position: 'absolute' }}
           className={!block.show && 'hidden' || ''}>
