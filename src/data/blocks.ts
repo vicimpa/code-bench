@@ -111,6 +111,18 @@ export const BlocksRunner = () => {
 
     const worker = new Worker(URL.createObjectURL(blob));
     topScore.state = 0;
+
+    worker.onerror = (error) => {
+      for (const block of blocks) {
+        block.error = error.message;
+        block.result = error.message;
+        delete block.score;
+      }
+
+      run.state = false;
+      worker.terminate();
+    };
+
     worker.onmessage = ({ data }) => {
       if (data === null) {
         run.state = false;
