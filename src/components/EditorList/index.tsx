@@ -9,7 +9,7 @@ export const EditorList = () => {
   return (
     <>
       <Editor name="Setup block" block={segments.setup} />
-      <Editor name="Bollerplate block" block={segments.bollerplate} />
+      <Editor name="Boilerplate block" block={segments.boilerplate} />
       {blocks.map(block => (
         <Editor key={block.id} defaultShow {...{ block }} />
       ))}

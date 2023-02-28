@@ -17,7 +17,7 @@ export interface IBlock {
 
 export interface ISegments {
   setup: IBlock;
-  bollerplate: IBlock;
+  boilerplate: IBlock;
 }
 
 export const run = makeSharedState(false);
@@ -25,7 +25,7 @@ export const topScore = makeSharedState(0);
 
 export const segments = proxy<ISegments>({
   setup: { id: generate(4, 6) },
-  bollerplate: { id: generate(4, 6) }
+  boilerplate: { id: generate(4, 6) }
 });
 
 export const blocks = proxy<IBlock[]>([
@@ -75,12 +75,12 @@ export const BlocksRunner = () => {
         ${blocks.map((block) => (`{
           const id = ${JSON.stringify(block.id)};
           const code = ${JSON.stringify(block.code ?? '')};
-          const bcode = ${JSON.stringify(segments.bollerplate.code ?? '')};
+          const bcode = ${JSON.stringify(segments.boilerplate.code ?? '')};
 
         
           try {
             if(!bcode) {
-              throw new Error("No bollerplate code");
+              throw new Error("No boilerplate code");
             }
             if(!code) {
               throw new Error("No block code");
@@ -91,7 +91,7 @@ export const BlocksRunner = () => {
             let score = 0;
             let need = Date.now() + ${1000};
             while(Date.now() < need) {
-              ${segments.bollerplate.code ?? ''};
+              ${segments.boilerplate.code ?? ''};
               score++;
             }
             
