@@ -40,10 +40,14 @@ export const Editor = ({ block, name, defaultShow }: IEditorProps) => {
 
   useSnapshot(block);
 
+  const titleMap:{[index: string]:any} = {
+    'Setup block': 'launch before every test',
+    'Boilerplate block': 'executes before every block (part of benchmark). Using for data init'
+  }
   return (
     <div className="editor">
       {isRun ? <div className="block" /> : null}
-      <div className="head">
+      <div className="head" title={name ? titleMap[name] : ''}>
         <button onClick={toggleShow}>{block.show ? '↑' : '↓'}</button>
 
         {name ? (
