@@ -1,6 +1,7 @@
 # CodeBench
 
 Easy editor and test speed JS code
+You can try on [this page](https://rustudent.dev/code-bench)
 
 ## For run
 
