@@ -10,6 +10,8 @@ createRoot(
     <BlocksRunner />
     <div className="header">
       <h1>CodeBench</h1>
+      <div className="grow"></div>
+      <a href="https://github.com/RuStudentDev/code-bench">GitHub</a>
     </div>
     <div className="main">
       <div className="editor-list">
