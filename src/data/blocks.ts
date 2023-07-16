@@ -39,6 +39,10 @@ export const appendBlock = () => {
   blocks.push({ id });
 };
 
+export const makeIdentifier = () => {
+  return `__${generate(12)}__`;
+};
+
 export const removeBlock = (id: string) => {
   const index = blocks.findIndex(e => e.id === id);
   if (index !== -1) blocks.splice(index, 1);
@@ -68,42 +72,54 @@ export const BlocksRunner = () => {
 
   useLayoutEffect(() => {
     if (!isRun) return;
+
+    const ID_ID = makeIdentifier();
+    const ID_CODE = makeIdentifier();
+    const ID_BCODE = makeIdentifier();
+    const ID_SCORE = makeIdentifier();
+    const ID_NEED = makeIdentifier();
+    const ID_DATENOW = makeIdentifier();
+    const ID_SELFSEND = makeIdentifier();
+
     const runCode = `
       ${segments.setup.code ?? ''};
+      const ${ID_DATENOW} = Date.now.bind(Date);
+      const ${ID_SELFSEND} = self.postMessage.bind(self);
 
       try{
         ${blocks.map((block) => (`{
-          const id = ${JSON.stringify(block.id)};
-          const code = ${JSON.stringify(block.code ?? '')};
-          const bcode = ${JSON.stringify(segments.boilerplate.code ?? '')};
-
-        
+          const ${ID_ID} = ${JSON.stringify(block.id)};
+          const ${ID_CODE} = ${JSON.stringify(block.code ?? '')};
+          const ${ID_BCODE} = ${JSON.stringify(segments.boilerplate.code ?? '')};
+ 
           try {
-            if(!bcode) {
+            if(!${ID_BCODE}) {
               throw new Error("No boilerplate code");
             }
-            if(!code) {
+            if(!${ID_CODE}) {
               throw new Error("No block code");
             }
             
             ${block.code};
             
-            let score = 0;
-            let need = Date.now() + ${1000};
-            while(Date.now() < need) {
+            let ${ID_SCORE} = 0;
+            const ${ID_NEED} = ${ID_DATENOW}() + ${3000};
+            while(${ID_DATENOW}() < ${ID_NEED}) {
               ${segments.boilerplate.code ?? ''};
-              score++;
+              ${ID_SCORE}++;
             }
             
-            self.postMessage({score, id});
+            ${ID_SELFSEND}({score: ${ID_SCORE}, id: ${ID_ID}});
           }catch(error) {
-            self.postMessage({error, id});
+            ${ID_SELFSEND}({error, id: ${ID_ID}});
           }
         }`)).join('\n')}
       }finally{
-        self.postMessage(null);
+        ${ID_SELFSEND}(null);
       }
     `;
+
+    console.log(runCode);
 
     const blob = new Blob([`${runCode}`], {
       type: "text/plain",
