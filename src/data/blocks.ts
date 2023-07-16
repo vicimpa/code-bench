@@ -119,8 +119,6 @@ export const BlocksRunner = () => {
       }
     `;
 
-    console.log(runCode);
-
     const blob = new Blob([`${runCode}`], {
       type: "text/plain",
     });
